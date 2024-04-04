@@ -5,7 +5,7 @@ CREATE TABLE maillot_dom
    idmaillotdom    VARCHAR(3)    NOT NULL,
    nomequipe    VARCHAR(20)    NOT NULL,
    marque    VARCHAR(15)    NULL,
-   CONSTRAINT cle_comp PRIMARY KEY (refcomp)
+   CONSTRAINT cle_comp PRIMARY KEY (idequipe)
   );
 
 INSERT INTO maillots VALUES('1','1','Liverpool','Nike');
