@@ -1,12 +1,29 @@
-#DROP TABLE maillotsdom;
+#DROP TABLE maillot_dom;
 
-CREATE TABLE maillots
-  (idmaillot    VARCHAR(15)    NOT NULL,
+CREATE TABLE maillot_dom
+  (idequipe    VARCHAR(15)    NOT NULL,
+   idmaillotdom    VARCHAR(15)    NOT NULL,
+   nomequipe    VARCHAR(15)    NOT NULL,
    marque    VARCHAR(15)    NULL,
-   type   	 VARCHAR(5)    NULL,
    CONSTRAINT cle_comp PRIMARY KEY (refcomp)
   );
 
-INSERT INTO maillots VALUES('MS6260S','Matsonic MS6260','Matsonic','CM');
-INSERT INTO maillots VALUES('P5A','Asus P5A ATX','Asus','CM');
-INSERT INTO maillots VALUES('BH6','Abit BH6 ATX','Abit','CM');
+INSERT INTO maillots VALUES('1','1','Liverpool','Nike');
+INSERT INTO maillots VALUES('2','2','Manchester City','Puma');
+INSERT INTO maillots VALUES('3','3','Arsenal','Adidas');
+
+
+
+#DROP TABLE maillot_exte;
+
+CREATE TABLE maillot_exte
+  (idequipe    VARCHAR(15)    NOT NULL,
+   idmaillotexte    VARCHAR(15)    NOT NULL,
+   nomequipe    VARCHAR(15)    NOT NULL,
+   marque    VARCHAR(15)    NULL,
+   CONSTRAINT cle_comp PRIMARY KEY (idequipe)
+  );
+
+INSERT INTO maillots VALUES('1','1','Liverpool','Nike');
+INSERT INTO maillots VALUES('2','2','Manchester City','Puma');
+INSERT INTO maillots VALUES('3','3','Arsenal','Adidas');
