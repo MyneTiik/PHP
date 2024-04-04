@@ -8,11 +8,11 @@ CREATE TABLE maillot_dom
    CONSTRAINT cle_comp PRIMARY KEY (idequipe)
   );
 
-INSERT INTO maillots VALUES('1','1','Liverpool','Nike');
-INSERT INTO maillots VALUES('2','2','Manchester City','Puma');
-INSERT INTO maillots VALUES('3','3','Arsenal','Adidas');
-INSERT INTO maillots VALUES('4','4','Manchester United','Adidas');
-INSERT INTO maillots VALUES('5','5','Lutton','Umbro');
+INSERT INTO maillot_dom VALUES(1,1,'Liverpool','Nike');
+INSERT INTO maillot_dom VALUES(2,2,'Manchester City','Puma');
+INSERT INTO maillot_dom VALUES(3,3,'Arsenal','Adidas');
+INSERT INTO maillot_dom VALUES(4,4,'Manchester United','Adidas');
+INSERT INTO maillot_dom VALUES(5,5,'Lutton','Umbro');
 
 
 #DROP TABLE maillot_exte;
@@ -25,8 +25,8 @@ CREATE TABLE maillot_exte
    CONSTRAINT cle_comp PRIMARY KEY (idequipe)
   );
 
-INSERT INTO maillots VALUES('1','1','Liverpool','Nike');
-INSERT INTO maillots VALUES('2','2','Manchester City','Puma');
-INSERT INTO maillots VALUES('3','3','Arsenal','Adidas');
-INSERT INTO maillots VALUES('4','4','Manchester United','Adidas');
-INSERT INTO maillots VALUES('5','5','Lutton','Umbro');
+INSERT INTO maillot_exte VALUES(1,1,'Liverpool','Nike');
+INSERT INTO maillot_exte VALUES(2,2,'Manchester City','Puma');
+INSERT INTO maillot_exte VALUES(3,3,'Arsenal','Adidas');
+INSERT INTO maillot_exte VALUES(4,4,'Manchester United','Adidas');
+INSERT INTO maillot_exte VALUES(5,5,'Lutton','Umbro');
