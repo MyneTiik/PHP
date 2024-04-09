@@ -14,7 +14,7 @@ INSERT INTO maillot_dom VALUES(1,1,'Liverpool','Nike',9999);
 INSERT INTO maillot_dom VALUES(2,2,'Manchester City','Puma',90);
 INSERT INTO maillot_dom VALUES(3,3,'Arsenal','Adidas',85);
 INSERT INTO maillot_dom VALUES(4,4,'Manchester United','Adidas',75);
-INSERT INTO maillot_dom VALUES(5,5,'Lutton','Umbro',90);
+INSERT INTO maillot_dom VALUES(5,5,'Luton','Umbro',90);
 
 
 DROP TABLE IF EXISTS maillot_exte;
@@ -31,7 +31,7 @@ INSERT INTO maillot_exte VALUES(1,1,'Liverpool','Nike',9999);
 INSERT INTO maillot_exte VALUES(2,2,'Manchester City','Puma',90);
 INSERT INTO maillot_exte VALUES(3,3,'Arsenal','Adidas',85);
 INSERT INTO maillot_exte VALUES(4,4,'Manchester United','Adidas',75);
-INSERT INTO maillot_exte VALUES(5,5,'Lutton','Umbro',90);
+INSERT INTO maillot_exte VALUES(5,5,'Luton','Umbro',90);
 
 
 
