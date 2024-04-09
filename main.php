@@ -1,3 +1,4 @@
+<?php
 class  page_accueil {
 	public $titre = "no";
 	
@@ -21,3 +22,5 @@ $s->entete() ;
 echo "<p>Sur le serveur, il est exactement ".date("H:i:s")."</p>" ;
 $s->corps();
 $s->fin() ;
+
+?>
