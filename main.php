@@ -2,7 +2,7 @@
 class  page_accueil {
 	public $titre = "no";
 	
-    function page_accueil($titre)
+    function __construct($titre)
         { $this->titre ; }
     function debut()
         {echo "<html><head><link rel='stylesheet' href='css/style.css'><title>$this->titre</title>" ;} 
@@ -17,19 +17,23 @@ class  page_accueil {
 }
 
 
-$db = new SQLite3('baseDD.db'); 
-if(!$db) { echo $db->lastErrorMsg();
-    } 
-else { echo "Opened database successfully<br><br>"; 
-    
+    $db = new SQLite3('basefoot.sqlite'); 
+    if(!$db) { 
+        echo $db->lastErrorMsg();
+    }   else { 
+        echo "Opened database successfully<br><br>"; 
+    }
 
-    $sql = 'Select idequipe from maillot_exte;';
+    $sql = "Select nomequipe from maillot_exte;";
     $results = $db->query($sql);
 
-    foreach($results as $row) {
-        echo "<li>" . $row['idequipe'] . "</li>";
+    while ($row = $results->fetchArray()) {
+        echo "Equipes : {$row['nomequipe']} <br>";
     }
-}
+    echo "<br> fonctionne <br>";
+    $db->close();
+
+
 
 $s = new page_accueil("Footix.com") ;
 $s->debut() ;
@@ -37,4 +41,4 @@ $s->entete() ;
 echo "<p>Sur le serveur, il est exactement ".date("H:i:s")."</p>" ;
 $s->corps();
 $s->fin() ;
-
+?>
