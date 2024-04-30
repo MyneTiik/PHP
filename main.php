@@ -1,3 +1,4 @@
+
 <?php
 class  page_accueil {
 	public $titre = "no";
