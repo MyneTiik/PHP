@@ -5,7 +5,7 @@ class  page_accueil {
     function page_accueil($titre)
         { $this->titre ; }
     function debut()
-        {echo "<html><head><title>$this->titre</title>" ;} 
+        {echo "<html><head><link rel='stylesheet' href='css/style.css'><title>$this->titre</title>" ;} 
     function entete()
         { echo "<meta charset='UTF-8'></head><body>" ; }
     function corps()
@@ -16,19 +16,20 @@ class  page_accueil {
 
 }
 
-$dbh = new PDO('sqlite:baseDD.db') or die("impossible d'ouvrir la base sqlite");
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if (isset($_POST['name'])) {
-        $stmt = $dbh->prepare("INSERT INTO baseDD (name) VALUES (?);");
-        $stmt->execute([$_POST['name']]);
+$db = new SQLite3('baseDD.db'); 
+if(!$db) { echo $db->lastErrorMsg();
+    } 
+else { echo "Opened database successfully<br><br>"; 
+    
+
+    $sql = 'Select idequipe from maillot_exte;';
+    $results = $db->query($sql);
+
+    foreach($results as $row) {
+        echo "<li>" . $row['idequipe'] . "</li>";
+    }
 }
-
-foreach ($dbh->query("select name from baseDD;") as $row) {
-        echo "<li>$row[0]</li>";
-}
-
-
 
 $s = new page_accueil("Footix.com") ;
 $s->debut() ;
@@ -37,4 +38,3 @@ echo "<p>Sur le serveur, il est exactement ".date("H:i:s")."</p>" ;
 $s->corps();
 $s->fin() ;
 
-?>
