@@ -16,6 +16,20 @@ class  page_accueil {
 
 }
 
+$dbh = new PDO('sqlite:baseDD.db') or die("impossible d'ouvrir la base sqlite");
+$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if (isset($_POST['name'])) {
+        $stmt = $dbh->prepare("INSERT INTO baseDD (name) VALUES (?);");
+        $stmt->execute([$_POST['name']]);
+}
+
+foreach ($dbh->query("select name from baseDD;") as $row) {
+        echo "<li>$row[0]</li>";
+}
+
+
+
 $s = new page_accueil("Footix.com") ;
 $s->debut() ;
 $s->entete() ;
