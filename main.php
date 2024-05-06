@@ -1,23 +1,16 @@
+<html>
+    <head>
+        <link rel='stylesheet' href='css/style.css'>
+        <title>$this->titre</title>
+        <meta charset='UTF-8'>
+    </head>
+    
+    <body>
+    <h1> LE FOOT </h1>
+    </body></html>
+
 
 <?php
-class  page_accueil {
-	public $titre = "no";
-	
-    function __construct($titre)
-        { $this->titre ; }
-    function debut()
-        {echo "<html><head><link rel='stylesheet' href='css/style.css'><title>$this->titre</title>" ;} 
-    function entete()
-        { echo "<meta charset='UTF-8'></head><body>" ; }
-    function corps()
-        {echo "<h1> LE FOOT </h1>" ; }
-    function fin()
-        {echo "</body></html>" ;}
-    
-
-}
-
-
     $db = new SQLite3('basefoot.sqlite'); 
     if(!$db) { 
         echo $db->lastErrorMsg();
@@ -31,15 +24,57 @@ class  page_accueil {
     while ($row = $results->fetchArray()) {
         echo "Equipes : {$row['nomequipe']} <br>";
     }
-    echo "<br> fonctionne <br>";
+    echo "<br> fonctionne 1 <br>";
+    
+
+    $sql = "Select im_avant from maillot_exte;";
+    $results = $db->query($sql);
+
+    while ($images = $results->fetchArray()) {
+        echo "<img src='{$images['im_avant']}'>";
+    }
+    echo "<br> fonctionne 2 <br>";
     $db->close();
 
 
-
-$s = new page_accueil("Footix.com") ;
-$s->debut() ;
-$s->entete() ;
-echo "<p>Sur le serveur, il est exactement ".date("H:i:s")."</p>" ;
-$s->corps();
-$s->fin() ;
 ?>
+
+
+<?php
+        $db = new SQLite3('basefoot.sqlite');
+
+        $requete = "SELECT * FROM maillot_exte where nomequipe='".($_GET["nomequipe"]."'");
+        echo $requete;
+        $results = $db->query($requete);
+    ?>  
+    <table>
+        <thead>
+            <tr>
+                <th>Equipe</th>
+                <th>Marque</th>
+                <th>Prix</th>
+                <th>Maillot</th>
+            </tr>
+        </thead>
+
+        <?php
+        while ($row = $results->fetchArray()) {
+            echo "<tr>
+                    <td>{$row['nomequipe']}</td>
+                    <td>{$row['marque']}</td>
+                    <td>{$row['prix']}</td>
+                    <td><img src='{$row['im_avant']}'><img src='{$row['im_dos']}'></td>
+                 </tr>";
+        }
+        ?>
+
+    <hr>
+    <h3>Exemple liste déroulante de nomequipe</h3>
+    <select name="nomequipe">
+        <?php
+        $results = $db->query('SELECT * FROM maillot_exte');
+        while ($row = $results->fetchArray()) {
+            echo "<option value=\"{$row['nomequipe']}\">{$row['marque']}-{$row['prix']}</option>";
+        }
+        ?>
+    </select>
