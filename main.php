@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel='stylesheet' href='css/style.css'>
-        <title>$this->titre</title>
+        <title>Footix.com</title>
         <meta charset='UTF-8'>
     </head>
     
@@ -43,7 +43,7 @@
 <?php
         $db = new SQLite3('basefoot.sqlite');
 
-        $requete = "SELECT * FROM maillot_exte where nomequipe='".($_GET["nomequipe"]."'");
+        $requete = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
         echo $requete;
         $results = $db->query($requete);
     ?>  
@@ -62,19 +62,28 @@
             echo "<tr>
                     <td>{$row['nomequipe']}</td>
                     <td>{$row['marque']}</td>
-                    <td>{$row['prix']}</td>
+                    <td>{$row['prix']} €</td>
                     <td><img src='{$row['im_avant']}'><img src='{$row['im_dos']}'></td>
                  </tr>";
         }
         ?>
 
     <hr>
-    <h3>Exemple liste déroulante de nomequipe</h3>
+    <h3>Exemple liste deroulante de nomequipe</h3>
+
+
+    <form action="index.php" method="GET">
+
     <select name="nomequipe">
+
         <?php
         $results = $db->query('SELECT * FROM maillot_exte');
         while ($row = $results->fetchArray()) {
-            echo "<option value=\"{$row['nomequipe']}\">{$row['marque']}-{$row['prix']}</option>";
+            echo "<option value=\"{$row['nomequipe']}\">{$row['nomequipe']}</option>";
         }
         ?>
+
     </select>
+ 
+    <input type="submit" value="Envoyer" value="submit" />
+    </form>
