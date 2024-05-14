@@ -34,6 +34,12 @@
                         <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
                     </ul>
                 </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="login.php">Login</a>
+                    </ul>
+                </div>
             </div>
         </nav>
 
