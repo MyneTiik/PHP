@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS membres;
 CREATE TABLE membres
   (id    INTEGER  PRIMARY KEY,
    pseudo    TEXT    NOT NULL,
-   mdp    TEXT    NOT NULL,
+   mdp    TEXT    NOT NULL
    );
 
 INSERT INTO membres VALUES(0,admin,admin);
