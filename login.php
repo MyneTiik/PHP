@@ -1,60 +1,55 @@
 <?php
-/*
-Page: connexion.php
-*/
-//à mettre tout en haut du fichier .php, cette fonction propre à PHP servira à maintenir la $_SESSION
+
 session_start();
 
-//si le bouton "Connexion" est cliqué
+$sql new SQLite3('basefoot.sql');
+
 if(isset($_POST['connexion'])){
+    $pseudo = $_POST['pseudo'];
+    $mdp = $_POST['mdp'];
+    if(!empty($pseudo) AND !empty($mdp)){
 
-  // on vérifie que le champ "Pseudo" n'est pas vide
-  // empty vérifie à la fois si le champ est vide et si le champ existe belle et bien (is set)
-  if(empty($_POST['pseudo'])){
-    echo "Le champ Pseudo est vide.";
-  } else {
-
-    // on vérifie maintenant si le champ "Mot de passe" n'est pas vide"
-    if(empty($_POST['mdp'])){
-      echo "Le champ Mot de passe est vide.";
-    } else {
-
-      // les champs pseudo & mdp sont bien postés et pas vides, on sécurise les données entrées par l'utilisateur
-      //le htmlentities() passera les guillemets en entités HTML, ce qui empêchera en partie, les injections SQL
-      $Pseudo = htmlentities($_POST['pseudo'], ENT_QUOTES, "UTF-8"); 
-      $MotDePasse = htmlentities($_POST['mdp'], ENT_QUOTES, "UTF-8");
-
-      //on se connecte à la base de données:
-      $cnxsql = new SQLite3('basefoot.sqlite')
-      //on vérifie que la connexion s'effectue correctement:
-      if(!$cnxsql){
-        echo "Erreur de connexion à la base de données.";
+      $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo= ? and mdp= ?');
+      $requete->execute(array($pseudo, $mdp));
+      $userexist = $requete->rowCount();
+      if($userexist == 1){
+         $userinfo = $requete->fetch();
+         $_SESSION['id'] = $userinfo['id'];
+         $_SESSION['pseudo'] = $userinfo['pseudo'];
+         $_SESSION['mdp'] = $userinfo['mdp'];
+         header("Location: index.php?id=".$_SESSION['id']);
       } else {
-        //on fait maintenant la requête dans la base de données pour rechercher si ces données existent et correspondent:
-        //si vous avez enregistré le mot de passe en md5() il vous faudra faire la vérification en mettant mdp = '".md5($MotDePasse)."' au lieu de mdp = '".$MotDePasse."'
-        $Requete = sql_query($cnxsql,"SELECT * FROM membres WHERE pseudo = '".$Pseudo."' AND mdp = '".$MotDePasse."'");
-
-        //si il y a un résultat, sql_num_rows() nous donnera alors 1
-        //si sql_num_rows() retourne 0 c'est qu'il a trouvé aucun résultat
-        if(sql_num_rows($Requete) == 0) {
-          echo "Le pseudo ou le mot de passe est incorrect, le compte n'a pas été trouvé.";
-        } else {
-            
-          //on ouvre la session avec $_SESSION:
-          //la session peut être appelée différemment et son contenu aussi peut être autre chose que le pseudo
-          $_SESSION['pseudo'] = $Pseudo;
-          echo "Vous êtes à présent connecté !";
-        }
+         $erreur = "Mauvais pseudo ou mot de passe !";
       }
+   } else {
+      $erreur = "Tous les champs doivent être complétés !";
     }
-  }
+
 }
+
 ?>
 
-<form action="connexion.php" method="post">
-  Pseudo: <input type="text" name="pseudo" />
-  <br />
-  Mot de passe: <input type="password" name="mdp" />
-  <br />
-  <input type="submit" name="connexion" value="Connexion" />
-</form>
+
+<html>
+<head>
+   <meta charset="utf-8">
+</head>
+
+<body>
+   <div align="center">
+      <h2>Connexion</h2>
+      <br /><br />
+      <form method="POST" action="">
+         <input type="text" name="pseudo" />
+         <input type="password" name="mdp" />
+         <br /><br />
+         <input type="submit" name="connexion" value="Se connecter !" />
+      </form>
+      <?php
+      if(isset($erreur)) {
+         echo '<font color="red">'.$erreur."</font>";
+      }
+      ?>
+   </div>
+</body>
+</html>
