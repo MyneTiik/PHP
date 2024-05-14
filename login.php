@@ -14,7 +14,7 @@ if(isset($_POST['connexion'])){
       $requete->bindValue(':mdp', $mdp);
       $result = $requete->execute();
       $userinfo = $result->fetchArray();
-      if($userexist == 1){
+      if($userinfo){
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mdp'] = $userinfo['mdp'];
