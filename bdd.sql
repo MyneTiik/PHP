@@ -1,60 +1,48 @@
-<?php
+BEGIN TRANSACTION;
 
-session_start();
+DROP TABLE IF EXISTS maillot_dom;
 
-$sql = new SQLite3('basefoot.sqlite');
+CREATE TABLE maillot_dom
+  (idequipe    INTEGER    PRIMARY KEY,
+   nomequipe    TEXT    NOT NULL,
+   marque    TEXT    NOT NULL,
+   prix    INTEGER    NOT NULL,
+   im_avant    TEXT    NOT NULL,
+   im_dos    TEXT    NOT NULL 
+  );
 
-if(isset($_POST['connexion'])){
-    $pseudo = $_POST['pseudo'];
-    $mdp = $_POST['mdp'];
-    if(!empty($pseudo) AND !empty($mdp)){
-
-      $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo=:pseudo and mdp=:mdp');
-      $requete->bindValue(':pseudo', $pseudo);
-      $requete->bindValue(':mdp', $mdp);
-      $result = $requete->execute();
-      $userinfo = $result->fetchArray();
-      
-      if($userinfo){
-
-         if($userinfo and $userinfo['pseudo'] == admin and $userinfo['mdp'] == admin){
-            $_SESSION['admin'] = $userinfo['pseudo'];
-            header("Location: Acceuil.php?id=".$_SESSION['id']);
-         }
-
-         $_SESSION['id'] = $userinfo['id'];
-         $_SESSION['pseudo'] = $userinfo['pseudo'];
-         $_SESSION['mdp'] = $userinfo['mdp'];
-         header("Location: index.php?id=".$_SESSION['id']);
+INSERT INTO maillot_dom VALUES(1,'Liverpool','Nike',9999,'liverpool_dom_avant.jpeg','liverpool_dom_dos.jpeg');
+INSERT INTO maillot_dom VALUES(2,'Manchester City','Puma',90,'mancity_dom_avant.jpeg','mancity_dom_dos.jpeg');
+INSERT INTO maillot_dom VALUES(3,'Arsenal','Adidas',85,'arsenal_dom_avant.jpeg','arsenal_dom_dos.jpeg');
+INSERT INTO maillot_dom VALUES(4,'Manchester United','Adidas',75,'manunited_dom_avant.jpeg','manunited_dom_dos.jpeg');
+INSERT INTO maillot_dom VALUES(5,'Luton','Umbro',90,'luton_dom_avant.jpeg','luton_dom_dos.jpeg');
 
 
-      } else {
-         $erreur = "Mauvais pseudo ou mot de passe !";
-      }
-   } else {
-      $erreur = "Tous les champs doivent être complétés !";
-    }
+DROP TABLE IF EXISTS maillot_exte;
 
-}
+CREATE TABLE maillot_exte
+  (idequipe    INTEGER    PRIMARY KEY,
+   nomequipe    TEXT    NOT NULL,
+   marque    TEXT    NOT NULL,
+   prix    INTEGER    NOT NULL,
+   im_avant    TEXT    NOT NULL,
+   im_dos    TEXT    NOT NULL 
+   );
 
-?>
+INSERT INTO maillot_exte VALUES(1,'Liverpool','Nike',9999,'liverpool_exte_avant.jpeg','liverpool_exte_dos.jpeg');
+INSERT INTO maillot_exte VALUES(2,'Manchester City','Puma',90,'mancity_exte_avant.jpeg','mancity_exte_dos.jpeg');
+INSERT INTO maillot_exte VALUES(3,'Arsenal','Adidas',85,'arsenal_exte_avant.jpeg','arsenal_exte_dos.jpeg');
+INSERT INTO maillot_exte VALUES(4,'Manchester United','Adidas',75,'manunited_exte_avant.jpeg','manunited_exte_dos.jpeg');
+INSERT INTO maillot_exte VALUES(5,'Luton','Umbro',90,'luton_exte_avant.jpeg','luton_exte_dos.jpeg');
 
+DROP TABLE IF EXISTS membres;
 
-<html>
-<head>
-   <meta charset="utf-8">
-</head>
+CREATE TABLE membres
+  (id    INTEGER  PRIMARY KEY,
+   pseudo    TEXT    NOT NULL,
+   mdp    TEXT    NOT NULL
+   );
 
-<body>
-   <div>
-      <h2>Connexion</h2>
-      <br /><br />
-      <form method="POST" action="">
-         <input type="text" name="pseudo" />
-         <input type="password" name="mdp" />
-         <br /><br />
-         <input type="submit" name="connexion" value="Se connecter !" />
-      </form>
-   </div>
-</body>
-</html>
+INSERT INTO membres VALUES(0,'admin','admin');
+
+COMMIT;
