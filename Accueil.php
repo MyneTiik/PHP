@@ -46,13 +46,6 @@
     ?>  
 
 
-    <?php
-    $db = new SQLite3('basefoot.sqlite');
-
-    $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
-    $results = $db->query($requete);
-    ?>
-
 
 
         <?php
