@@ -19,14 +19,16 @@ if(isset($_POST['connexion'])){
 
          if($userinfo['pseudo'] == 'admin'){
             $_SESSION['admin'] = $userinfo['pseudo'];
-            echo "Vous êtes connecté en tant qu'admin";
+            echo "Vous êtes connecté en tant qu'AAAAAAAAAAAAAAAA";
+            header('Location: admin.php');
          }
 
+         else {
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mdp'] = $userinfo['mdp'];
          echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
-
+         }
 
       } else {
          $erreur = "Mauvais pseudo ou mot de passe !";
@@ -54,6 +56,13 @@ if(isset($_POST['connexion'])){
          <input type="password" name="mdp" />
          <br /><br />
          <input type="submit" name="connexion" value="Se connecter !" />
+      </form>
+   </div>
+   <div>
+      <h2>Créer un compte</h2>
+      <br /><br />
+      <form method="POST" action="register.php">
+         <input type="submit" name="creer_compte" value="Créer un compte !" />
       </form>
    </div>
 </body>
