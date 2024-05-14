@@ -1,4 +1,4 @@
-    <html>
+<html>
         <head>
             <link rel='stylesheet' href='css/style.css'>
             <title>Footix.com</title>
@@ -68,14 +68,6 @@
         </div>
     </form>
 
-    <?php
-    $db = new SQLite3('basefoot.sqlite');
-
-    $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
-    $results = $db->query($requete);
-    $requete2 = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
-    $results2 = $db->query($requete2);
-    ?>
 
     <table class="table">
         <thead>
