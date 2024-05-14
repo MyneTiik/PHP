@@ -38,7 +38,7 @@ INSERT INTO maillot_exte VALUES(5,'Luton','Umbro',90,'luton_exte_avant.jpeg','lu
 DROP TABLE IF EXISTS membres;
 
 CREATE TABLE membres
-  (id    INTEGER  PRIMARY KEY  AUTOINCREMENT,
+  (id    INTEGER  PRIMARY KEY,
    pseudo    TEXT    NOT NULL,
    mdp    TEXT    NOT NULL,
    );
