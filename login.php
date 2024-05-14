@@ -14,6 +14,14 @@ if(isset($_POST['connexion'])){
       $requete->bindValue(':mdp', $mdp);
       $result = $requete->execute();
       $userinfo = $result->fetchArray();
+      
+      if($userinfo and $userinfo['pseudo'] == 'admin' and $userinfo['mdp'] == 'admin'){
+         $_SESSION['id'] = $userinfo['id'];
+         $_SESSION['pseudo'] = $userinfo['pseudo'];
+         $_SESSION['mdp'] = $userinfo['mdp'];
+         header("Location: Accueil.php?id=".$_SESSION['id']);
+         echo "admin";
+
       if($userinfo){
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
