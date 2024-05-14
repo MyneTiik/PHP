@@ -15,18 +15,19 @@ if(isset($_POST['connexion'])){
       $result = $requete->execute();
       $userinfo = $result->fetchArray();
       
-      if($userinfo and $userinfo['pseudo'] == 'admin' and $userinfo['mdp'] == 'admin'){
-         $_SESSION['id'] = $userinfo['id'];
-         $_SESSION['pseudo'] = $userinfo['pseudo'];
-         $_SESSION['mdp'] = $userinfo['mdp'];
-         header("Location: Accueil.php?id=".$_SESSION['id']);
-         echo "admin";
-
       if($userinfo){
+
+         if($userinfo and $userinfo['pseudo'] == admin and $userinfo['mdp'] == admin){
+            $_SESSION['admin'] = $userinfo['pseudo'];
+            header("Location: Acceuil.php?id=".$_SESSION['id']);
+         }
+
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mdp'] = $userinfo['mdp'];
          header("Location: index.php?id=".$_SESSION['id']);
+
+
       } else {
          $erreur = "Mauvais pseudo ou mot de passe !";
       }
