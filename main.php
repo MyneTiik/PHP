@@ -56,13 +56,13 @@
     <form action="index.php" method="GET" class="mb-3">
         <div class="input-group">
             <select name="nomequipe" class="form-select">
+                <option style='text-align: center'>Rechercher &eacute;quipe</option>
                 <?php
                 $results = $db->query('SELECT * FROM maillot_exte');
                 while ($row = $results->fetchArray()) {
-                    echo "<option value=\"{$row['nomequipe']}\">{$row['nomequipe']}</option>";
+                    echo "<option value=\"{$row['nomequipe']}\" style='text-align: center'>{$row['nomequipe']}</option>";
                 }
                 ?>
-		
             </select>
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
