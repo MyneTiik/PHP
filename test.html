@@ -1,53 +1,75 @@
-
 <?php
-class  page_accueil {
-	public $titre = "no";
-	
-    function __construct($titre)
-        { $this->titre ; }
-    function debut()
-        {echo "<html><head><link rel='stylesheet' href='css/style.css'><title>$this->titre</title>" ;} 
-    function entete()
-        { echo "<meta charset='UTF-8'></head><body>" ; }
-    function corps()
-        {echo "<h1> LE FOOT </h1>" ; }
-    function fin()
-        {echo "</body></html>" ;}
-    
+
+session_start();
+
+$sql = new SQLite3('basefoot.sqlite');
+
+if(isset($_POST['connexion'])){
+    $pseudo = $_POST['pseudo'];
+    $mdp = $_POST['mdp'];
+    if(!empty($pseudo) && !empty($mdp)){
+
+      $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo=:pseudo and mdp=:mdp');
+      $requete->bindValue(':pseudo', $pseudo);
+      $requete->bindValue(':mdp', $mdp);
+      $result = $requete->execute();
+      $userinfo = $result->fetchArray();
+
+
+
+      $test = 'select id from membres where pseudo = :pseudo and mdp = :mdp';
+      $verif = $sql->query($test);
+
+
+      if($userinfo){
+
+         if($userinfo['pseudo'] == 'admin' and $verif == 0){
+            $_SESSION['admin'] = $userinfo['pseudo'];
+            echo "Vous êtes connecté en tant qu'AAAAAAAAAAAAAAAA";
+            header('Location: admin.php');
+         }
+
+         else {
+         $_SESSION['id'] = $userinfo['id'];
+         $_SESSION['pseudo'] = $userinfo['pseudo'];
+         $_SESSION['mdp'] = $userinfo['mdp'];
+         echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
+         }
+
+      } else {
+         $erreur = "Mauvais pseudo ou mot de passe !";
+      }
+   } else {
+      $erreur = "Tous les champs doivent être complétés !";
+    }
 
 }
 
-
-    $db = new SQLite3('basefoot.sqlite'); 
-    if(!$db) { 
-        echo $db->lastErrorMsg();
-    }   else { 
-        echo "Opened database successfully<br><br>"; 
-    }
-
-    $sql = "Select nomequipe from maillot_exte;";
-    $results = $db->query($sql);
-
-    while ($row = $results->fetchArray()) {
-        echo "Equipes : {$row['nomequipe']} <br>";
-    }
-    echo "<br> fonctionne 1 <br>";
-    
-
-    $sql = "Select im_avant from maillot_exte;";
-    $results = $db->query($sql);
-
-    while ($images = $results->fetchArray()) {
-        echo "<img src='{$images['im_avant']}'>";
-    }
-    echo "<br> fonctionne 2 <br>";
-    $db->close();
-
-
-$s = new page_accueil("Footix.com") ;
-$s->debut() ;
-$s->entete() ;
-echo "<p>Sur le serveur, il est exactement ".date("H:i:s")."</p>" ;
-$s->corps();
-$s->fin() ;
 ?>
+
+
+<html>
+<head>
+   <meta charset="utf-8">
+</head>
+
+<body>
+   <div>
+      <h2>Connexion</h2>
+      <br /><br />
+      <form method="POST" action="">
+         <input type="text" name="pseudo" />
+         <input type="password" name="mdp" />
+         <br /><br />
+         <input type="submit" name="connexion" value="Se connecter !" />
+      </form>
+   </div>
+   <div>
+      <h2>Créer un compte</h2>
+      <br /><br />
+      <form method="POST" action="register.php">
+         <input type="submit" name="creer_compte" value="Créer un compte !" />
+      </form>
+   </div>
+</body>
+</html>
