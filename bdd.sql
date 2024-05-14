@@ -43,6 +43,6 @@ CREATE TABLE membres
    mdp    TEXT    NOT NULL
    );
 
-INSERT INTO membres VALUES(0,admin,admin);
+INSERT INTO membres VALUES(0,'admin','admin');
 
 COMMIT;
