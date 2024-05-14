@@ -52,7 +52,6 @@
         $db = new SQLite3('basefoot.sqlite');
 
         $requete = "SELECT * FROM maillot_dom";
-        echo $requete;
         $results = $db->query($requete);
 
         $count = 0;
