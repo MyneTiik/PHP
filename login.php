@@ -2,18 +2,18 @@
 
 session_start();
 
-$sql new SQLite3('basefoot.sql');
+$sql = new SQLite3('basefoot.sqlite');
 
 if(isset($_POST['connexion'])){
     $pseudo = $_POST['pseudo'];
     $mdp = $_POST['mdp'];
     if(!empty($pseudo) AND !empty($mdp)){
 
-      $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo= ? and mdp= ?');
-      $requete->execute(array($pseudo, $mdp));
-      $userexist = $requete->rowCount();
+      $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo=:pseudo and mdp=:mdp');
+      $requete->bindValue(':pseudo', $pseudo);
+      $requete->bindValue(':mdp', $mdp);
+      $result = $requete->execute();
       if($userexist == 1){
-         $userinfo = $requete->fetch();
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mdp'] = $userinfo['mdp'];
@@ -36,7 +36,7 @@ if(isset($_POST['connexion'])){
 </head>
 
 <body>
-   <div align="center">
+   <div>
       <h2>Connexion</h2>
       <br /><br />
       <form method="POST" action="">
@@ -45,11 +45,6 @@ if(isset($_POST['connexion'])){
          <br /><br />
          <input type="submit" name="connexion" value="Se connecter !" />
       </form>
-      <?php
-      if(isset($erreur)) {
-         echo '<font color="red">'.$erreur."</font>";
-      }
-      ?>
    </div>
 </body>
 </html>
