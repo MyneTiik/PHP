@@ -16,5 +16,26 @@
     	echo "<option value=\"{$row['pseudo']}\">{$row['pseudo']}</option>";
     }
     ?>  
- 
- 	
+    <br>
+    <?php
+    $maillot_dom = $_GET["maillot_dom"];
+    $maillot_exte = $_GET["maillot_exte"];
+    $membres = $_GET["membres"];
+    ?> 
+    <form action="index.php" method="GET" class="mb-2">
+        <div class="input-group">
+            <select name="name" class="form-select">
+                <?php
+                $results = $db->query('select name from sqlite_master where type="table";');
+                while ($row = $results->fetchArray()) {
+                    echo "<option value=\"{$row['name']}\">{$row['name']}</option>";
+                }
+                ?>
+            </select>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+	
+
+
+</body>
