@@ -14,28 +14,30 @@ if(isset($_POST['connexion'])){
       $requete->bindValue(':mdp', $mdp);
       $result = $requete->execute();
       $userinfo = $result->fetchArray();
+      
+      
 
-
-
-      $test = 'select id from membres where pseudo = :pseudo and mdp = :mdp';
-      $verif = $sql->query($test);
-
-
+      
       if($userinfo){
+         $existingPseudo = $sql->prepare('SELECT * FROM membres WHERE pseudo=:pseudo');
+         $existingPseudo->bindValue(':pseudo', $pseudo);
+         $existingResult = $existingPseudo->execute();
+         $existingUser = $existingResult->fetchArray();
 
-         if($userinfo['pseudo'] == 'admin' and $verif == 0){
-            $_SESSION['admin'] = $userinfo['pseudo'];
-            echo "Vous êtes connecté en tant qu'AAAAAAAAAAAAAAAA";
-            header('Location: admin.php');
+         if($existingUser){
+            $erreur = "Ce pseudo est déjà utilisé !";
+         } else {
+            if($userinfo['pseudo'] == 'admin'){
+               $_SESSION['admin'] = $userinfo['pseudo'];
+               echo "Vous êtes connecté en tant qu'AAAAAAAAAAAAAAAA";
+               header('Location: admin.php');
+            } else {
+               $_SESSION['id'] = $userinfo['id'];
+               $_SESSION['pseudo'] = $userinfo['pseudo'];
+               $_SESSION['mdp'] = $userinfo['mdp'];
+               echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
+            }
          }
-
-         else {
-         $_SESSION['id'] = $userinfo['id'];
-         $_SESSION['pseudo'] = $userinfo['pseudo'];
-         $_SESSION['mdp'] = $userinfo['mdp'];
-         echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
-         }
-
       } else {
          $erreur = "Mauvais pseudo ou mot de passe !";
       }
