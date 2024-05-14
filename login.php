@@ -7,7 +7,7 @@ $sql = new SQLite3('basefoot.sqlite');
 if(isset($_POST['connexion'])){
     $pseudo = $_POST['pseudo'];
     $mdp = $_POST['mdp'];
-    if(!empty($pseudo) AND !empty($mdp)){
+    if(!empty($pseudo) && !empty($mdp)){
 
       $requete = $sql->prepare('SELECT * FROM membres WHERE pseudo=:pseudo and mdp=:mdp');
       $requete->bindValue(':pseudo', $pseudo);
@@ -17,15 +17,15 @@ if(isset($_POST['connexion'])){
       
       if($userinfo){
 
-         if($userinfo and $userinfo['pseudo'] == admin and $userinfo['mdp'] == admin){
+         if($userinfo['pseudo'] == 'admin'){
             $_SESSION['admin'] = $userinfo['pseudo'];
-            header("Location: Acceuil.php?id=".$_SESSION['id']);
+            echo "Vous êtes connecté en tant qu'admin";
          }
 
          $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
          $_SESSION['mdp'] = $userinfo['mdp'];
-         header("Location: index.php?id=".$_SESSION['id']);
+         echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
 
 
       } else {
