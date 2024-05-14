@@ -7,7 +7,7 @@
         </head>
         
         <body>
-        <h1 style="text-align: center;"> LE FOOT </h1>
+        <h1 style="text-align: center;"> FOOTIX </h1>
         </body></html>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,7 +19,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="Accueil.php">Accueil</a>
+                    </ul>
+                </div>
+		<div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="maillot_dom.php">Maillot Domicile</a>
+                    </ul>
+                </div>
+		<div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
                     </ul>
                 </div>
             </div>
@@ -31,6 +43,8 @@
 
     $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
     $results = $db->query($requete);
+    $requete2 = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
+    $results2 = $db->query($requete2);
     ?>  
 
     <form action="index.php" method="GET" class="mb-3">
@@ -42,6 +56,7 @@
                     echo "<option value=\"{$row['nomequipe']}\">{$row['nomequipe']}</option>";
                 }
                 ?>
+		
             </select>
             <button type="submit" class="btn btn-primary">Envoyer</button>
         </div>
@@ -52,6 +67,8 @@
 
     $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
     $results = $db->query($requete);
+    $requete2 = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
+    $results2 = $db->query($requete2);
     ?>
 
     <table class="table">
@@ -74,6 +91,16 @@
                 </tr>";
         }
         ?>
+	<?php
+        while ($row = $results2->fetchArray()) {
+            echo "<tr>
+                    <td>{$row['nomequipe']}</td>
+                    <td>{$row['marque']}</td>
+                    <td>{$row['prix']} &euro;</td>
+                    <td><img src='{$row['im_avant']}'><img src='{$row['im_dos']}'></td>
+                </tr>";
+        }
+        ?>
 
     </table>
     
@@ -83,68 +110,6 @@
 
 
 
-        <div class="container">
-            <div class="row">
-                <div class="col">Equipe</div>
-                <div class="col">Marque</div>
-                <div class="col">Prix</div>
-                <div class="col">Maillot</div>
-            </div>
-            <?php
-            $db = new SQLite3('basefoot.sqlite');
-
-            $requete = "SELECT * FROM maillot_dom" ;
-            
-            $results = $db->query($requete);
-
-            while ($row = $results->fetchArray()) {
-                echo "<div class='row'>
-                        <div class='col'>{$row['nomequipe']}</div>
-                        <div class='col'>{$row['marque']}</div>
-                        <div class='col'>{$row['prix']} &euro;</div>
-                        <div class='col'><img src='{$row['im_avant']}'></div>
-                    </div>";
-            }
-            ?>
-
-        </div>
-
-
-        <?php
-        $db = new SQLite3('basefoot.sqlite');
-
-        $requete = "SELECT * FROM maillot_dom";
-        echo $requete;
-        $results = $db->query($requete);
-
-        $count = 0;
-
-        while ($row = $results->fetchArray()) {
-            if ($count % 3 == 0) {
-                echo "<div class='row'>";
-            }
-
-            echo "<div class='col'>
-                    <div class='card' style='width: 18rem;'>
-                        <img src='{$row['im_avant']}' class='card-img-top'>
-                        <div class='card-body'>
-                            <p class='card-text'>{$row['nomequipe']}</p>
-                            <p class='card-text'>{$row['prix']}</p>
-                        </div>
-                    </div>
-                </div>";
-
-            $count++;
-
-            if ($count % 3 == 0) {
-                echo "</div><br><br>";
-            }
-        }
-
-        if ($count % 3 != 0) {
-            echo "</div><br><br>";
-        }
-        ?>
                 
         <footer class="bg-dark text-white text-center p-3">
             &copy; 2021 - Footix.com
