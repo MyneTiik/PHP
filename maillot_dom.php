@@ -1,5 +1,3 @@
-######## Maillot dom
-
     <html>
         <head>
             <link rel='stylesheet' href='css/style.css'>
@@ -30,6 +28,10 @@
                     <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
+                    </ul>
+                    <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="login.php">Login</a>
                     </ul>
                 </div>
             </div>
