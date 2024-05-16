@@ -34,9 +34,15 @@
                         <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
                     </ul>
                 </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+		    <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="login.php">Login</a>
+                    </ul>
+                </div>
             </div>
         </nav>
-
+	<br>
 
     <?php
     $db = new SQLite3('basefoot.sqlite');
@@ -45,6 +51,13 @@
     $results = $db->query($requete);
     ?>  
 
+
+    <?php
+    $db = new SQLite3('basefoot.sqlite');
+
+    $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
+    $results = $db->query($requete);
+    ?>
 
 
 
