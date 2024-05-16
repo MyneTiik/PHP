@@ -1,6 +1,3 @@
-################## maillot exte
-
-
     <html>
         <head>
             <link rel='stylesheet' href='css/style.css'>
@@ -24,13 +21,23 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="Accueil.php">Accueil</a>
                     </ul>
+                </div>
+		<div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="maillot_dom.php">Maillot Domicile</a>
                     </ul>
+                </div>
+		<div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Maillot Ext&eacuterieur</a>
+                        <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                    	<li class="nav-item">
+                        	<a class="nav-link active" aria-current="page" href="login.php">Login</a>
                     </ul>
                 </div>
             </div>
@@ -47,10 +54,11 @@
     <form action="index.php" method="GET" class="mb-3">
         <div class="input-group">
             <select name="nomequipe" class="form-select">
+                <option style='text-align: center'>Rechercher &eacute;quipe</option>
                 <?php
                 $results = $db->query('SELECT * FROM maillot_exte');
                 while ($row = $results->fetchArray()) {
-                    echo "<option value=\"{$row['nomequipe']}\">{$row['nomequipe']}</option>";
+                    echo "<option value=\"{$row['nomequipe']}\" style='text-align: center'>{$row['nomequipe']}</option>";
                 }
                 ?>
             </select>
