@@ -9,7 +9,7 @@
         
         <body>
         <h1 style="text-align: center;"> FOOTIX </h1>
-        </html>
+        </body></html>
 
         <?php include 'nav.php'; ?>
 
