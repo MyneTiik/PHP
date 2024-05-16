@@ -5,20 +5,30 @@ $db = new SQLite3('basefoot.sqlite');
 $pseudo = $_GET["pseudo"];
 $mdp = $_GET["mdp"];
 
+$checkPseudo = $db->prepare('SELECT COUNT(*) FROM membres WHERE pseudo = :pseudo');
+$checkPseudo->bindValue(':pseudo', $pseudo);
+$result = $checkPseudo->execute();
+$count = $result->fetchArray()[0];
+
+if($count > 0){
+    echo "Ce pseudo est déjà utilisé";
+    exit;
+}
+
 if(!empty($pseudo) && !empty($mdp)){
     $requete = 'Insert into membres (pseudo, mdp) values (:pseudo, :mdp)';
     
-    $statement = $db->prepare($requete);
-    $statement->bindValue(':pseudo', $pseudo);
-    $statement->bindValue(':mdp', $mdp);
+    $result = $db->prepare($requete);
+    $result->bindValue(':pseudo', $pseudo);
+    $result->bindValue(':mdp', $mdp);
 
-    $statement->execute();
+    $result->execute();
     echo "Votre compte a bien été créé";
 }
-
+else{
+    echo "Veuillez remplir tous les champs";
+}
 ?>
-
-
 
 <!DOCTYPE html>
 <html>
