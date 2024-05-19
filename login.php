@@ -1,6 +1,7 @@
-<?php
+<?php include 'head.php'; ?>
+<?php include 'nav.php'; ?>
 
-session_start();
+<?php
 
 $sql = new SQLite3('basefoot.sqlite');
 
@@ -15,26 +16,26 @@ if(isset($_POST['connexion'])){
       $result = $requete->execute();
       $userinfo = $result->fetchArray();
       
+
       if($userinfo){
 
          if($userinfo['pseudo'] == 'admin'){
-            $_SESSION['admin'] = $userinfo['pseudo'];
-            echo "Vous êtes connecté en tant qu'AAAAAAAAAAAAAAAA";
+            $_SESSION['pseudo'] = $userinfo['pseudo'];
             header('Location: admin.php');
          }
 
          else {
-         $_SESSION['id'] = $userinfo['id'];
          $_SESSION['pseudo'] = $userinfo['pseudo'];
-         $_SESSION['mdp'] = $userinfo['mdp'];
          echo "Vous êtes connecté en tant que " . $_SESSION['pseudo'];
+         header('Location: accueil.php');
          }
 
-      } else {
+
+      }else {
          $erreur = "Mauvais pseudo ou mot de passe !";
       }
    } else {
-      $erreur = "Tous les champs doivent être complétés !";
+      $erreur = "Tous les champs doivent &ecirc;tre compl&eacute;t&eacute;s !";
     }
 
 }
@@ -48,22 +49,39 @@ if(isset($_POST['connexion'])){
 </head>
 
 <body>
-   <div>
+   <div style="text-align: center;">
       <h2>Connexion</h2>
-      <br /><br />
-      <form method="POST" action="">
-         <input type="text" name="pseudo" />
-         <input type="password" name="mdp" />
-         <br /><br />
-         <input type="submit" name="connexion" value="Se connecter !" />
-      </form>
    </div>
+      <br><br>
+      <form method="POST" action="" class="col-lg-6 offset-lg-3 ">
+         <div class="row justify-content-center">
+         <label for="pseudo">Pseudo :</label>
+         <input type="text" name="pseudo" />
+         <br><br>
+         <label for="mdp">Mot de passe :</label>
+         <input type="password" name="mdp" />
+         <br><br>
+         <input type="submit" name="connexion" value="Se connecter !" style="background-color: #4CAF50; color: white; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer;" />
+         <?php echo $erreur; ?>
+         </div>
+      </form> 
+   </div>
+
+   <br><br>
+
    <div>
-      <h2>Créer un compte</h2>
+      <div style="text-align: center;">
+         <h2>Cr&eacute;er un compte</h2>
+      </div>
       <br /><br />
-      <form method="POST" action="register.php">
-         <input type="submit" name="creer_compte" value="Créer un compte !" />
+      <form method="POST" action="register.php" class="col-lg-6 offset-lg-3 ">
+      <div class="row justify-content-center">
+         <input type="submit" name="creer_compte" value="Cr&eacute;er un compte !" style="background-color: #CCCCFF; color: white; padding: 10px 20px; margin-top: 10px; border: none; border-radius: 4px; cursor: pointer;" />
+
       </form>
+      </div>
    </div>
 </body>
 </html>
+
+<?php include 'footer.php'; ?>

@@ -16,10 +16,9 @@ $count = $result->fetchArray()[0];
 
 if($count > 0){
     $erreur = "Ce pseudo est déjà utilisé";
-    exit;
 }
 
-if(!empty($pseudo) && !empty($mdp)){
+if(!empty($pseudo) && !empty($mdp) && $count == 0){
     $requete = 'Insert into membres (pseudo, mdp) values (:pseudo, :mdp)';
     
     $result = $db->prepare($requete);
@@ -27,16 +26,15 @@ if(!empty($pseudo) && !empty($mdp)){
     $result->bindValue(':mdp', $mdp);
 
     $result->execute();
-    echo "Votre compte a bien été créé";
 
     $_SESSION['pseudo'] = $pseudo;
     $_SESSION['mdp'] = $mdp;
 
-    sleep(2);
+    session_start();
     header('Location: accueil.php');
     
 }
-else{
+if(empty($pseudo) and empty($mdp)){
     $erreur = "Veuillez remplir tous les champs";
 }
 ?>

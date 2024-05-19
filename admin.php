@@ -1,56 +1,87 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 
-<html>
-<head>
-    <title>Admin Page</title>
-    <link rel='stylesheet' href='css/style.css'>
-    <title>Footix.com</title>
-    <meta charset='UTF-8'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<?php include 'head.php'; ?>
+<?php include 'nav.php'; ?>
 
-</head>
-<body>
-    <h1>Page admin</h1>
+<?php
+$tableName = 'membres';
 
+if ($_SESSION['pseudo'] !== 'admin') { 
 
-    <h2>Ajouter des valeurs</h2>
+    header('Location: login.php');
+    exit;
+}
+?>
 
-    <?php
-    $db = new SQLite3('basefoot.sqlite');
-    $results = $db->query('SELECT * FROM membres');
-    while ($row = $results->fetchArray()) {
-    	echo "<option value=\"{$row['pseudo']}\">{$row['pseudo']}</option>";
+<?php
+$db = new SQLite3('basefoot.sqlite');
+$nom_table = $_GET['tablename'];
+$requete = "SELECT * FROM $nom_table";
+$results = $db->query($requete);
+
+echo "<table class='table stripped'>";
+echo "<tr>";
+for ($i = 0; $i < $results->numColumns(); $i++) {
+    $columnName = $results->columnName($i);
+    echo "<th scope='col'>$columnName</th>";
+}
+echo "</tr>";
+
+while ($row = $results->fetchArray()) {
+    echo "<tr>";
+    for ($i = 0; $i < $results->numColumns(); $i++) {
+        echo "<td>{$row[$i]}</td>";
     }
-    ?>  
-    <br>
-    <?php
-    $maillot_dom = $_GET["maillot_dom"];
-    $maillot_exte = $_GET["maillot_exte"];
-    $membres = $_GET["membres"];
-    ?> 
-    <form action="admin.php" method="GET" class="mb-3">
-        <div class="input-group">
-            <select name="name" class="form-select">
-                <?php
-                $results = $db->query('select name from sqlite_master where type="table";');
-                while ($row = $results->fetchArray()) {
-                    echo "<option value=\"{$row['name']}\">{$row['name']}</option>";
-                }
-                ?>
-                
-            </select>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
-        </div>
+    echo "</tr>";
+}
+echo "</table>";
+?>
+
+<h1 style="text-align: center">Page admin</h1>
+
+<h2>Ajouter des valeurs</h2>
+
+<form action="admin.php" method="GET" class="mb-3">
+    <div class="input-group">
+        <select name="tablename" class="form-select">
+            <?php
+            $db = new SQLite3('basefoot.sqlite');
+            $results = $db->query('SELECT name FROM sqlite_master WHERE type="table"');
+            while ($row = $results->fetchArray()) {
+                echo "<option value=\"{$row['name']}\" style='text-align: center'>{$row['name']}</option>";
+            }
+            ?>
+        </select>
+        <button type="submit" class="btn btn-primary">Envoyer</button>
+    </div>
+</form>
+
+
+
+<?php
+    $tableName = $_GET['tablename'];
+    $query = "SELECT * FROM $tableName LIMIT 1";
+    $result = $db->query($query);
+    $numFields = $result->numColumns();
+
+echo "Number of fields to fill: $numFields";
+?>
+
+<form method="POST" action="admin.php">
+    <div style="margin-bottom: 10px;">
         <?php
-        $db = new SQLite3('basefoot.sqlite');
-        $tables = $db->query('select name from sqlite_master where type="table";');
-        
-        echo "Sous tableau";
-        foreach($tables as $table) {
-        	echo $table['name'] . "<br>";
+        for ($i = 0; $i < $numFields; $i++) {
+            $fieldName = $result->columnName($i);
+            echo "<label>$fieldName:</label>";
+            echo "<input type='text' name='$fieldName' style='margin-left: 10px;'><br><br>";
+            ${$fieldName} = $fieldName;
         }
         ?>
-    </form>
-	
+    </div>
+    <input type="submit" value="Ajouter">
+</form>
 
-
-</body>
