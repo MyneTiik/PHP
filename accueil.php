@@ -2,6 +2,8 @@
 <?php include 'nav.php'; ?>
 
 <?php
+
+
 $db = new SQLite3('basefoot.sqlite');
 
 $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");

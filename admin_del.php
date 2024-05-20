@@ -2,6 +2,9 @@
 <?php include 'nav.php'; ?>
 <?php include 'navad.php'; ?>
 
+<?php
+$tableName = $_GET['tablename'];
+?>
 
 <?php
 //verifier si l'utilisateur est connecté
@@ -13,7 +16,7 @@ if ($_SESSION['pseudo'] !== 'admin') {
 }
 ?>
 
-<button type="button" onclick="window.location.reload();" class="btn btn-primary btn-lg btn-block">Recharger la page</button> <h2>ajouter des valeurs</h2>
+<button type="button" onclick="window.location.reload();" class="btn btn-primary btn-lg btn-block">Recharger la page</button> <h2>Supprimer des valeurs</h2>
 
 
 <?php
@@ -42,10 +45,9 @@ while ($row = $results->fetchArray()) {
 echo "</table>";
 ?>
 
-<h1 style="text-align: center">Page admin</h1>
 
 
-<form action="admin.php?tablename=<?php echo $tableName ?>" method="GET" class="mb-3">
+<form action="admin_del.php?tablename=<?php echo $tableName ?>" method="GET" class="mb-3">
     <div class="input-group">
         <select name="tablename" class="form-select">
             <?php
@@ -65,45 +67,35 @@ echo "</table>";
         </div>
     </form>
 
+<h2>Supprimer des valeurs</h2>
 
-    <?php
-    $tableName = $_GET['tablename'];
-    $query = "SELECT * FROM $tableName LIMIT 1";
-    $result = $db->query($query);
-    $numFields = $result->numColumns();
-    ?>
+<?php
+//permet de supprimer en fonction du premier champ de la table
+?>
 
-    <h2>Ajouter des valeurs</h2>
+<form method="POST" action="admin_del.php?tablename=<?php echo $tableName ?>">
+    <div style="margin-bottom: 10px;">
+        <label for="id">ID:</label>
+        <input type="text" name="id" style="margin-left: 10px;"><br><br>
+    </div>
+    <input type="submit" value="Supprimer">
+</form>
 
-    <form method="POST" action="admin.php?tablename=<?php echo $tableName ?>">
-        <div style="margin-bottom: 10px;">
-            <?php
-            $champs = [];
-            for ($i = 0; $i < $numFields; $i++) {
-                $fieldName = $result->columnName($i);
-                echo "<label>$fieldName:</label>";
-                echo "<input type='text' name='$fieldName' style='margin-left: 10px;'><br><br>";
-                $champs[] = $fieldName;
-            }
-            ?>
-        </div>
-        <input type="submit" value="Ajouter">
-    </form>
 
-    <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-        $values = [];
-        for ($i = 0; $i < count($champs); $i++) {
-            $fieldName = $champs[$i];
-            $value = $_POST[$fieldName];
-            $values[] = $value;
-        }
-        // Insert the values into the database
-        $insertQuery = "INSERT INTO $tableName VALUES ('" . implode("','", $values) . "')";
-        $db->exec($insertQuery);
-        // reload to the admin page
-        header('Location: admin.php?tablename=' . $tableName);
-        exit;
-    }
-    ?>
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $requete = "SELECT * FROM $tableName LIMIT 1";
+    $colonnes = $db->query($requete);
+    $columnName = $colonnes->columnName(0);
+
+    // Insert the values into the database
+    $insertQuery = "DELETE FROM $tableName WHERE  $columnName= " . $_POST['id'];
+    $db->exec($insertQuery);
+    // Redirect to the admin page
+    header('Location: admin_del.php?tablename=' . $tableName);
+    exit;
+}
+
+?>

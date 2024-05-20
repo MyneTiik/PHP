@@ -26,6 +26,10 @@ while ($row = $results->fetchArray()){
     echo "</div>";
     echo "</div>";
     echo "</div>";
+    
+    echo "<div>";
+    echo "<td style='vertical-align: middle;'><a class='btn btn-primary' href='ajouter_panier.php?idequipe={$row["idequipe"]}&nomtable={$row["table_name"]}'>Panier</a></td>";
+    echo "</div>";
 }
 ?>
 
