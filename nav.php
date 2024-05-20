@@ -15,13 +15,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="maillot_dom.php">Maillot Domicile</a>
-                    </ul>
-                </div>
-		<div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="maillot_exte.php">Maillot Ext&eacuterieur</a>
+                        <a class="nav-link active" aria-current="page" href="maillot.php">Maillots</a>
                     </ul>
                 </div>
                 <?php 
@@ -59,9 +53,19 @@
                     echo '<div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="admin.php">Admin</a>
+                                <a class="nav-link active" aria-current="page" href="admin.php?tablename=membres">Admin</a>
                             </li>
                         </ul>
+                    </div>';
+                }
+                if (isset($_SESSION['pseudo'])) {
+                    echo '<div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="panier.php">Panier</a>
+                            </li>
+                        </ul>
+                        </div>
                     </div>';
                 }
                 ?>

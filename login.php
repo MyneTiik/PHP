@@ -21,7 +21,7 @@ if(isset($_POST['connexion'])){
 
          if($userinfo['pseudo'] == 'admin'){
             $_SESSION['pseudo'] = $userinfo['pseudo'];
-            header('Location: admin.php');
+            header('Location: admin.php?tablename=membres');
          }
 
          else {
