@@ -45,4 +45,14 @@ CREATE TABLE membres
 
 INSERT INTO membres VALUES(0,'admin','admin');
 
+DROP TABLE IF EXISTS commentaire;
+
+CREATE TABLE commentaire
+  (id    INTEGER  PRIMARY KEY,
+   pseudo    TEXT    NOT NULL,
+   comm    TEXT    NOT NULL
+   );
+
+INSERT INTO membres VALUES(0,'admin','bravo beau site !');
+
 COMMIT;
