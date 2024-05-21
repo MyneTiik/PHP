@@ -53,6 +53,6 @@ CREATE TABLE commentaire
    comm    TEXT    NOT NULL
    );
 
-INSERT INTO membres VALUES(0,'admin','bravo beau site !');
+INSERT INTO commentaire VALUES(0,'admin','bravo beau site !');
 
 COMMIT;
