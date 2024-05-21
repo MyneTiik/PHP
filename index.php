@@ -20,5 +20,19 @@ Allez Footix, et vive le foot !</p>
     </div>
 </div>
 
+<?php
+if (!empty($pseudo) && !empty($commentaire)) {
+	$requete = 'INSERT INTO commentaire (pseudo, commentaire) values (:pseudo, :commentaire)';
+	$result = $db->prepare($requete);
+	$result->bindValue(':pseudo', $pseudo);
+	$result->bindValue(':commentaire', $commentaire);
+
+	$result->execute();
+	echo "Votre commentaire a bien pris en compte";
+
+
+}
+?>
+
 
 <?php include 'footer.php'; ?>
