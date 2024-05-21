@@ -1,87 +1,38 @@
+<?php include 'head.php'; ?>
+<?php include 'nav.php'; ?>
 
-<html>
-        <head>
-            <link rel='stylesheet' href='css/style.css'>
-            <title>Footix.com</title>
-            <meta charset='UTF-8'>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        </head>
-        
-        <body>
-        <h1 style="text-align: center;"> FOOTIX </h1>
-        </body></html>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="text-center">
+                <h1>Footix.com</h1>
+                <p>Bienvenue sur Footix.com !
 
-        <?php include 'nav.php'; ?>
+Fans de foot, vous &ecirc;tes au bon endroit ! Sur Footix, trouvez les maillots de vos &eacute;quipes pr&eacute;f&eacute;r&eacute;es et portez fi&egrave;rement leurs couleurs. Clubs de l&eacute;gende ou s&eacute;lections nationales, nous avons ce qu'il vous faut !
 
+Explorez notre collection de produits authentiques et profitez de nos super promos. Besoin d'aide ? Notre &eacute;quipe est l&agrave; pour vous !
 
-    <?php
-    $db = new SQLite3('basefoot.sqlite');
+Merci de choisir Footix.com. Ensemble, vivons notre passion du football !
 
-    $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
-    $results = $db->query($requete);
-    $requete2 = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
-    $results2 = $db->query($requete2);
-    ?>  
-
-    <form action="index.php" method="GET" class="mb-3">
-        <div class="input-group">
-            <select name="nomequipe" class="form-select">
-                <?php
-                $results = $db->query('SELECT * FROM maillot_exte');
-                while ($row = $results->fetchArray()) {
-                    echo "<option value=\"{$row['nomequipe']}\">{$row['nomequipe']}</option>";
-                }
-                ?>
-		
-            </select>
-            <button type="submit" class="btn btn-primary">Envoyer</button>
+Allez Footix, et vive le foot !</p>
+            </div>
         </div>
-    </form>
+    </div>
+</div>
+
+<?php
+if (!empty($pseudo) && !empty($commentaire)) {
+	$requete = 'INSERT INTO commentaire (pseudo, commentaire) values (:pseudo, :commentaire)';
+	$result = $db->prepare($requete);
+	$result->bindValue(':pseudo', $pseudo);
+	$result->bindValue(':commentaire', $commentaire);
+
+	$result->execute();
+	echo "Votre commentaire a bien pris en compte";
 
 
-    
-    <?php
-    $db = new SQLite3('basefoot.sqlite');
+}
+?>
 
-    $requete = "SELECT * FROM maillot_dom where nomequipe like '".($_GET["nomequipe"]."'");
-    $results = $db->query($requete);
-    $requete2 = "SELECT * FROM maillot_exte where nomequipe like '".($_GET["nomequipe"]."'");
-    $results2 = $db->query($requete2);
-    ?>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Equipe</th>
-                <th>Marque</th>
-                <th>Prix</th>
-                <th>Maillot</th>
-            </tr>
-        </thead>
-
-        <?php
-        while ($row = $results->fetchArray()) {
-            echo "<tr>
-                    <td>{$row['nomequipe']}</td>
-                    <td>{$row['marque']}</td>
-                    <td>{$row['prix']} &euro;</td>
-                    <td><img src='{$row['im_avant']}'><img src='{$row['im_dos']}'></td>
-                </tr>";
-        }
-        ?>
-	<?php
-        while ($row = $results2->fetchArray()) {
-            echo "<tr>
-                    <td>{$row['nomequipe']}</td>
-                    <td>{$row['marque']}</td>
-                    <td>{$row['prix']} &euro;</td>
-                    <td><img src='{$row['im_avant']}'><img src='{$row['im_dos']}'></td>
-                </tr>";
-        }
-        ?>
-
-    </table>
-    
-                
-        <footer class="bg-dark text-white text-center p-3">
-            &copy; 2021 - Footix.com
+<?php include 'footer.php'; ?>
