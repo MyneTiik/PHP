@@ -21,18 +21,17 @@ Allez Footix, et vive le foot !</p>
 </div>
 
 <?php
-if (!empty($pseudo) && !empty($commentaire)) {
-	$requete = 'INSERT INTO commentaire (pseudo, commentaire) values (:pseudo, :commentaire)';
-	$result = $db->prepare($requete);
-	$result->bindValue(':pseudo', $pseudo);
-	$result->bindValue(':commentaire', $commentaire);
+	$db = new SQLite3('basefoot.sqlite');
+	$requete = "SELECT * FROM commentaire";
+	$results = $db->query($requete);
 
-	$result->execute();
-	echo "Votre commentaire a bien pris en compte";
+	while ($row = $results->fetchArray()) {
+        	echo $row['comm'];
+    		
+	}
 
-
-}
 ?>
+
 
 
 <?php include 'footer.php'; ?>
